@@ -1,0 +1,77 @@
+;; CSCI-3130
+;; Ryan Hines
+;; Ram 3
+
+JMP _start
+
+;; Data
+
+
+base: 0a            ; triangle's base
+height: 0f         ; triangle's height
+
+i: 00               ; iterator variable for 32 bits in a number
+result: 80000000    ; will hold the result, as well as help with comparison
+
+;; Code
+
+_start:
+
+    ;; compare to see if it is better to switch
+    LDAC height     ; load height
+    MVAC            ; move height to R
+    LDAC base       ; load base
+    SUB             ; subtract ACC to R (base - height)
+    MVAC            ; move the result to 
+    LDAC result     ; load result
+    AND             ; AND subtraction result with result variable
+
+    JMPZ _multiply  ; if result is 0 then no need to switch
+                    ; if result still has one then the subtraction was negative and height is greater
+
+    ;; else switch base and height
+    LDAC height     ; load height
+    MVAC            ; move to R
+    LDAC base       ; load base
+    STAC height     ; store base into height
+    MOVR            ; move R (height) back to ACC
+    STAC base       ; store height into base
+    CLAC        
+    
+_multiply:
+
+    CLAC            ; clear ACC to make 0
+    STAC result     ; store 0 into result
+
+    ; height will be used in the iterator for number times need to add in multiplication
+    LDAC height     ; load height
+    NOT             ; negate height 
+    INC             ; increment for two's compliment
+    STAC i          ; store negated height into i (iterator)
+
+_loop:
+
+    JMPZ _division  ; if iterator is 0, then continue to division
+
+    ; add base to current sum
+    LDAC result     ; load result
+    MVAC            ; move result to R
+    LDAC base       ; load base
+    ADD             ; add base to result
+    STAC result     ; store the product of addition into result variable
+
+    ; increment iterator
+    LDAC i          ; load i     
+    INC             ; add 1
+    STAC i          ; store back to i
+    JMP _loop       ; repeat back to loop to continue mutliplication process
+
+_division:
+
+    LDAC result     ; load result from multiplication
+    ASHR            ; right shift once since it is constant (1/2)
+    STAC result     ; store back into result
+
+    ; display result
+    OUT
+    HALT

@@ -1,0 +1,22 @@
+;; Ryan Hines
+;; Ola8
+;; Subtracting two numbers (10 - 8)
+
+JMP _start	; jump to start
+
+;; Data Section
+
+x1: A
+x2: 8
+
+;; Code
+
+_start:
+	LDAC x2		; load 8
+	MVAC		; move to R
+	CLAC		; clear ACC
+	LDAC x1		; load 10
+	SUB			; subtract ACC (10) with R (8)
+	OUT			; display result in the ACC at OUTR
+ 	HALT		; stop program
+

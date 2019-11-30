@@ -1,0 +1,68 @@
+;; Ryan Hines
+;; Ola8
+;; ram2.txt
+
+;; a series of computations using the given data
+
+JMP _init
+
+;; Data Section
+x1: A9		; A9 = 169
+x2: 2B		; 2B = 43
+x3: AF		; AF = 175
+x4: D1		; D1 = 209
+
+;; Code
+
+_init:
+	;; x1 + x2 = A9 + 2B = 169 + 43 = 212 = D4
+
+	LDAC x1		; load 169 to ACC
+	MVAC		; move 169 to R
+	LDAC x2		; load 43 to ACC
+	ADD			; add ACC (43) with R (169)
+	OUT			; display result from ACC
+	
+	CLAC
+	;; x1 - x2 = A9 - 2B = 169 - 43 = 126 = 7E
+	LDAC x2		; load 43 first
+	MVAC		; move to R
+	LDAC x1		; load 169
+	SUB			; subtract ACC to R (169 - 43)
+	OUT			; display result from ACC
+
+	CLAC
+	;; x1 AND x2 = A9 && 2B = 29
+	LDAC x1		; load A9
+	MVAC		; move to R
+	LDAC x2		; load 2B
+	AND			; AND the ACC with R
+	OUT			; display result from ACC
+	
+	CLAC
+	;; x1 OR x2 = A9 || 2B = AB
+	LDAC x1		; load A9
+	MVAC		; move to R
+	LDAC x2		; load 2B
+	OR			; OR the ACC with R
+	OUT			; display result from ACC
+
+	CLAC
+	;; ASHR x1 = right shift A9 = 54
+	LDAC x1		; load A9
+	ASHR		; perform right shift
+	OUT			; display result from ACC
+
+	CLAC
+	;; increment x3 = AF + 1 = B0
+	LDAC x3		; load AF
+	INC			; increment AF
+	OUT			; display result from ACC
+
+	CLAC
+	;; !x4 = !(D1) = FFFFFF2E
+	LDAC x4		; load D1
+	NOT			; NOT D1
+	OUT			; display result from ACC
+
+	HALT		; stop program
